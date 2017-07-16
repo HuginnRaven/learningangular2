@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "sourceMap": true
+    },
+    "files": [
+        "src/app.ts",
+        "src/contact/contact.ts"
+    ]
+}
