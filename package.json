@@ -17,13 +17,17 @@
     "@angular/router": "~4.2.0",
     "@angular/tsc-wrapped": "~4.2.0",
     "@angular/upgrade": "~4.2.0",
+    "@types/core-js": "^0.9.42",
+    "@types/node": "^8.0.13",
     "angular-in-memory-web-api": "~0.3.2",
     "core-js": "^2.4.1",
     "rxjs": "^5.1.0",
     "systemjs": "0.19.39",
+    "toastr": "^2.1.2",
     "zone.js": "^0.8.4"
   },
   "devDependencies": {
+    "angular-router-loader": "^0.6.0",
     "browser-sync": "^2.18.12",
     "browser-sync-webpack-plugin": "^1.2.0",
     "css-loader": "^0.28.4",
@@ -35,14 +39,15 @@
     "ts-loader": "^2.2.2",
     "tslint": "^5.5.0",
     "typescript": "^2.4.1",
+    "typings": "^2.1.1",
     "webpack": "^3.1.0",
     "webpack-dev-server": "^2.5.1"
   },
   "scripts": {
-    "server": "NODE_ENV=production webpack && webpack-dev-server --progress --colors",
-    "start": "npm-run-all --parallel security-check server tunel",
+    "server": "webpack && webpack-dev-server --progress --colors",
+    "start": "npm-run-all --parallel security-check server",
     "security-check": "nsp check",
-    "prod": "npm run clean && NODE_ENV=production webpack -p",
+    "prod": "npm run clean && webpack -p",
     "clean": "rimraf ./dist/*",
     "tunel": "lt --port 3000"
   },

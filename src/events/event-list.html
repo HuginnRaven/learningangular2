@@ -1,0 +1,10 @@
+<div>
+    <div class="well hoverwell thumbnail" (click)="showNotification(event?.name)">
+        <h2>{{event.name}}</h2>
+        <div><span>Date:</span> {{event.date}}</div>
+        <div><span>Time:</span> {{event.time}}</div>
+        <div [ngClass]="{green: event?.price < 400, red: event?.price > 400}"><span>Price: $</span> {{event.price}}</div> 
+        <div *ngIf="event?.location"><span>Country:</span> {{event?.location?.country}}</div>              
+        <a [routerLink]="['/events', event?.id]">Details</a>
+    </div>
+</div>

@@ -4,14 +4,6 @@ const Webpack = require("webpack");
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-var isProduction = process.env.NODE_ENV === 'production';
-var cssDev = ["style-loader", "css-loader"];
-var cssProduction = ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: 'css-loader'
-                });
-var cssConfiguration = isProduction ? cssProduction : cssDev;                
-
 
 module.exports = {
     devtool: 'source-map',
@@ -25,19 +17,23 @@ module.exports = {
     },
     target: 'web',
     resolve: {
-        extensions: ['.ts', '.tsx', '.js']
+        extensions: ['.ts', '.tsx', '.js', '.css']
     },
     module: {
         loaders: [
             {
+                test: /\.css$/,
+                include: path.resolve(__dirname, "src"),
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader',
+                    publicPath: '/dist'
+                })
+            },
+            {
                 test: /\.tsx?$/,
                 include: path.resolve(__dirname, "src"),
                 loader: 'ts-loader'
-            },
-            {
-                test: /\.css$/,
-                include: path.resolve(__dirname, "src"),
-                use: cssConfiguration
             }
         ]
     },
@@ -58,9 +54,18 @@ module.exports = {
             filename: 'app.css',
             disable: false,
             allChunks: true
-        }), 
+        }),
+        new ExtractTextPlugin({
+            filename: 'app.css',
+            disable: false,
+            allChunks: true
+        }),
         new Webpack.HotModuleReplacementPlugin(),
         new Webpack.NamedModulesPlugin(),
+        new Webpack.ContextReplacementPlugin(
+            /angular(\\|\/)core(\\|\/)@angular/,
+            path.resolve(__dirname, '../src')
+        ),
         new HtmlWebpackPlugin({
             title: 'Project Demo',
             chunks: ['app'],
@@ -75,11 +80,32 @@ module.exports = {
             title: 'Project Contact',
             chunks: ['contact'],
             minify: {
+                caseSensitive: true,
                 collapseWhitespace: true
             },
             hash: true,
             filename: './contact.html',
             template: './src/contact/contact.html'
         }),
+        new HtmlWebpackPlugin({
+            title: 'Events',
+            minify: {
+                caseSensitive: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            filename: './event-list.html',
+            template: './src/events/event-list.html'
+        }),
+         new HtmlWebpackPlugin({
+            title: 'EventsDetails',
+            minify: {
+                caseSensitive: true,
+                collapseWhitespace: true
+            },
+            hash: true,
+            filename: './event-details.html',
+            template: './src/events/event-details/event-details.html'
+        })
     ]
 }

@@ -1,11 +1,6 @@
-import msg from "./Message";
-const stl = require("./app.css");
+import "./polyfills";
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+import { AppModule } from "./app.module";
+const styles = require("./app.css");
 
-window.onload = function () {
-    const a = new msg();
-    a.show();
-};
-
-function printValue(value) {
-    console.log("Simon");
-}
+platformBrowserDynamic().bootstrapModule(AppModule);
